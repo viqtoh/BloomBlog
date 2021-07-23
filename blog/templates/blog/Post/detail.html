@@ -1,0 +1,94 @@
+{% extends "blog/base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+	<div class="container mt-3 detContainer">
+	<div class="normTitle mb-3"><p class="text-center detailhead">{{ post.title }}</p></div>
+	<div>
+		<p class="date ml-3">
+		Published {{ post.publish }} by <a class="author text-decoration-none badge badge-secondary" href="{% url 'blog:account' post.author %}">{{ post.author }}</a> </p><br><br>
+	</div>
+	<div id="postBody" class="mainContainer p-5 mb-5">
+	{% autoescape off %}
+	<div class="mb-3">
+		{{ post.html }}
+	</div>
+	{% endautoescape %}
+	{% if post.edited == 1 %}
+		<p><i>(edited)</i></p>
+	{% endif %}<br>
+	<p class="tags inline mt-5">Tags: 
+		{% for tag in post.tags.all %}
+			<a href="{% url 'blog:home_by_tag' tag.slug %}" class="badge text-decoration-none tag-button tactive">{{ tag.name }}</a>
+		{% empty %}
+			<p class="inline badge tag-button">No tags on this post.<p>
+		{% endfor %}
+	</p>
+	</div>
+
+	<div class="container">
+
+	<p class="similar inline badge">Similar Posts: </p>
+	{% for post in similar_posts %}
+		<p class="Opinline"><a href="{{ post.get_absolute_url }}" class="text-decoration-none similar-link pl-1 pr-1 badge-secondary mr-2">{{ post.title | truncatechars:60}}</a></p>
+	{% empty %}
+		<p class="inline badge badge-secondary">There are no similar posts yet.</p>
+	{% endfor %}
+	<br><br>
+	</div>
+	<div>
+		<a href="mailto:mail@example.com?subject=Check%20Out%20This%20Post&body=Check%20This%20Out:%20http://localhost:8000{{ PostUrl }}" class="sharePost text-decoration-none">Share <i class="fa fa-share"></i></a>
+		{% if post.author == user %}
+			<a href="{{ post.get_absolute_url_edit }}" class="sharePost text-decoration-none">Edit <i class="fa fa-pencil-square-o"></i></a>
+			<button onclick="deletediv()" href="{{ post.get_absolute_url_delete }}" class="delPost text-decoration-none">Delete <i class="fa fa-trash"></i></button>
+		{% endif %}
+	</div>
+	</div>
+	{% if Tcomments.count >= 1 %}
+	<div class="container mt-5 commentSec p-3">
+		{% with comments.count as total_comments %}
+			<p>{{ total_comments }} comment{{ total_comments|pluralize }}</p>
+		{% endwith %}
+		{% for comment in comments %}
+			<h5 class="CName">{{ comment.name }}</h5>
+			<p class="CBy">by <a href="mailto:{{ comment.email }}" class="text-decoration-none CMail badge badge-secondary">{{ comment.email }}</a></p>
+			<p class="CBody">{{ comment.body }}</p>
+			<p class="CDate">{{ comment.created }}</p>
+		{% endfor %}
+	</div>
+	<div class="container mt-2">
+		{% include "paginator.html" with page=comments %}
+	</div>
+	{% endif %}
+	{% if comments.count == 0 %}
+	<div class="container NoC mt-5"><p>No Comments on this Post...</p></div>
+	{% endif %}
+	{% if new_comment %}
+		<p>Your comment has been added</p>
+	{% else %}
+		<div class="container mt-5">
+			<form method="POST">
+				{{ comment_form.as_p }}
+				{% csrf_token %}
+				<p><input type="submit" value="Add Comment"></p>
+			</form>
+		</div>
+	<div id="predeldiv">
+		<div class="container mt-5 text-center">
+			<p>Are you sure you want to delete this post? </p>
+			<a class="mr-3 delbut button" href='{{ post.get_absolute_url_delete }}'>Yes</a><button class="ml-3 delbut" onclick="reverse()">No</button>
+		</div>
+	</div>
+	{% endif %}
+	<script type="text/javascript">
+		function deletediv(){
+			document.getElementById('preoverlay').id='overlayPage';
+			document.getElementById('predeldiv').id='deldiv';
+
+		}
+		function reverse(){
+			document.getElementById('overlayPage').id='preoverlay';
+			document.getElementById('deldiv').id='predeldiv';
+
+		}
+	</script>
+{% endblock %}

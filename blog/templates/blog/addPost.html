@@ -1,0 +1,119 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="container mt-3 text-monospace text-capitalize text-center p-5">
+		<form method="POST" class="addform">
+			{% csrf_token %}
+			<fieldset class="form-group reg p-3 text-monospace text-center">
+				{{ form.title }}
+				{{ form.body }}
+				{{ form.html }}
+				<div id='myForms'>
+					<input type="text">
+				</div>
+				<br><br>
+				<div id="addedtag" class="mb-2"><p class="inline" id="added"></p></div>
+				{{ form.tags }}
+				{{ form.rtags }}
+				<p class="inline">Tag your Post:</p>
+				<input type="text" onkeyup="ac(this.value)" autocomplete="new-password" id="tagField">
+				<div id="tagdiv"></div>
+			</fieldset>
+			<fieldset class="form-group">
+				<div class="container butdiv">
+					<button class="but2" onclick="getText()" > Add Post</button>
+				</div>
+			</fieldset>
+			<datalist id="datalist">
+				{% for tag in tagsq %}
+				<option class='tagclass inline' value={{ tag }}></option>
+				{% endfor %}
+			</datalist>
+		</form>
+	</div>
+	{% autoescape off %}
+
+	<script>
+		var container = document.getElementById('myForms');
+		var quill = new Quill(container,{
+			theme: 'snow'
+		});
+		//function to get the text from the quill and add it to the invisible body field
+		function getText(){
+			html = quill.container.firstChild.innerHTML;
+			var input = document.getElementById("htmlField");
+			input.value = html;
+			body = quill.container.firstChild.innerText;
+			var input = document.getElementById("bodyField");
+			input.value = body;
+
+		}
+		var tags = '{{ tags }}';
+		var n = tags.length - 2;
+		tags = tags.slice(1,n);
+		tags = tags.split('*');
+		var n = tags.length;
+		//funtion to get the value of the tag field and search for that value from the tag dictionary
+		function ac(value,tag=tags){
+			document.getElementById('tagdiv').innerHTML = '';
+			if (value.length != 0){
+				value = value.toLowerCase();
+				n = tag.length;
+				for (var i = 0; i<n; i++){
+					if((tag[i].toLowerCase()).indexOf(value)>-1){
+						var tagdiv = document.getElementById("tagdiv");
+						tagdiv.innerHTML+=(("<button  onclick=\'addtag(\"")+tag[i]+("\")\' class='initag badge badge secondary'>")+tag[i]+"</button>");
+					}
+				}
+			}
+		}
+		//function to remove selected tag
+		function removetag(tagName){
+			tagbut = document.getElementById(tagName);
+			tagbut.parentNode.removeChild(tagbut);
+			input = document.getElementById("rtag");
+			value = input.value;
+			if (value.length == 0){
+				document.getElementById("rtag").value = tagName;
+			}
+			else{
+				document.getElementById("rtag").value = value +','+ tagName;
+			}
+		}
+
+		//funtion to add the selected tag to the invisible tag field
+		function addtag(tagName){
+			input = document.getElementById("maintag");
+			value = input.value;
+			if (value.length == 0){
+				document.getElementById("maintag").value = tagName;
+			}
+			else{
+				document.getElementById("maintag").value = value +','+ tagName;
+			}
+			document.getElementById('tagField').value='';
+			document.getElementById('addedtag').innerHTML+=(("<button id=\'")+tagName+("\'  onclick=\'removetag(\"")+tagName+("\")\' class=\'badge badge-secondary ml-2 initag\'>")+tagName+("</button>"));
+			const index = tags.indexOf(tagName);
+			var tagged = 'Tags: ';
+			if (document.getElementById('added').innerText!= tagged){
+				document.getElementById('added').innerText= tagged;
+			}
+			document.getElementById("tagdiv").innerHTML='';
+			arr = [];
+			if (index >-1) {
+				var a = 0;
+				while (a < tags.length) {
+					if (a!=index) {
+						arr = arr.concat(tags[a]);
+						a+=1;
+					}
+					else{
+						a+=1;
+					}
+				}
+			}
+			tags = arr;
+		}
+	</script>
+	{% endautoescape %}
+{% endblock %}

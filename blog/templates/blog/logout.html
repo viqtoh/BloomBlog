@@ -1,0 +1,8 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+	<div class="container text-monospace text-capitalize text-center p-5">
+		<p>You have  been logged out</p>
+		<p>Login again? <a href="{% url 'blog:login' %}" class="badge badge-dark p-1 link1 text-wrap">Login</a></p>
+	</div>
+
+{% endblock %}

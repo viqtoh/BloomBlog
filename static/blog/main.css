@@ -1,0 +1,186 @@
+.logbut{
+	border: solid 1px black;
+	width: 30%;
+	border-radius: 10px;
+}
+.logbut:hover{
+	background-color: black;
+	color: white;
+	border: solid 1px white;
+	transition-duration: 0.4s;
+}
+.link1{
+	color: black;
+	transition-duration: 0.4s;
+	border-color: black;
+	border: solid;
+	border-width: 1px;
+}
+
+.navlink{
+	width: 100px;
+}
+
+@media screen and (min-width: 700px){
+	#info{
+		color: white;
+		display: inline-block;
+	}
+	.info-div{
+		position: absolute;
+		left: 10%;
+		width: 80%;
+		top: 200px;
+		font-size: 120%;
+	}
+	.nv{
+		position: relative;
+		font-size: 120%;
+	}
+	.bg-img{
+		background: url('/static/blog/Images/nav.png') no-repeat top center fixed;
+		background-size: 100% auto;
+		height: 400px;
+	}
+
+	#ico{
+		font-size: 130%;
+	}
+	.mainContainer{
+		border: 1px solid lightgrey;
+		border-radius: 10px;
+		padding: 30px;
+		background-color: #F1F1F1;
+	}
+
+}
+@media screen and (max-width: 650px){
+	#info{
+		color: white;
+		display: inline-block;
+	}
+	.info-div{
+		position: absolute;
+		left: 10%;
+		width: 80%;
+		font-size: 90%;
+	}
+	.bg-img{
+		height: auto;
+	}
+	.nv{
+		position: relative;
+		font-size: 120%;
+		background-color: black;
+	}
+
+	#ico{
+		font-size: 130%;
+	}
+	.navcontent{
+		position: relative;
+		top: 150px;
+	}
+	.navbar-collapse.collapsing,
+	.navbar-collapse.show {
+    height: 90vw;
+	}
+}
+
+
+.navlink{
+	border: solid;
+	border-width: 2px;
+	border-color: lightgrey;
+	border-radius: 10px;
+}
+.active{
+	background-color: black;
+	color: white;
+}
+.active:hover {
+	background-color: black;
+	color: white;
+}
+.inactive{
+	background-color: black;
+	color: #6D6D6F;
+	transition-duration: 0.4s;
+}
+.inactive:hover {
+	color: black;
+	background-color: white;
+	border-color: black;
+
+}
+
+.linkTitle{
+	color: black;
+	border: 1px solid black;
+	border-radius: 5px;
+	background-color: white;
+	padding: 6px;
+}
+.linkTitle:hover{
+	color: white;
+	border: 1px solid white;
+	background-color: black;
+	transition-duration: 0.4s;
+}
+.author{
+	display: inline-block;
+	color: #0072AC;
+}
+.post1{
+	padding-bottom: 25px;
+}
+
+.predate{
+	display: inline;
+}
+.date{
+	color: #867990;
+	display: inline-block;
+}
+.commentSec{
+	background-color: #F1F1F1;
+	width: 90%;
+	border-radius: 8px;
+}
+.CMail{
+	font-size: 95%;
+	margin-left: 5px;
+	color: black;
+}
+.CDate{
+	font-size: 70%;
+	color: #0072AC;
+}
+.CBy{
+	display: inline-block;
+	font-size: 90%;
+	color: darkgrey;
+}
+.CName{
+	display: inline;
+}
+.CBody{
+	font-size: 90%;
+}
+.NoC{
+	color: grey;
+}
+
+.way{
+	border: 1px solid black;
+	color: black;
+	padding: 4px;
+	font-size: 85%;
+	border-radius: 4px;
+}
+.way:hover{
+	color: white;
+	border: 1px solid white;
+	background-color: black;
+	transition-duration: 0.4s;
+}
